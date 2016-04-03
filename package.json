@@ -1,0 +1,9 @@
+{
+  "name": "bank-data-generator",
+  "version": "0.1.0",
+  "main": "main.js",
+  "dependencies": {
+    "electron-prebuilt": "^0.37.3",
+    "xlsx": "^0.8.0"
+  }
+}
