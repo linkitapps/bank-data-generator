@@ -10,6 +10,33 @@
 
   <p><input type="file" name="xlfile" id="xlfile" /> ... 은행 거래내역 엑셀파일을 선택해주십시오</p>
 
+  <table id="target">
+    <thead>
+      <tr>
+        <th>거래일시</th>
+        <th>적요</th>
+        <th>기재내용</th>
+        <th>출금액(원)</th>
+        <th>입금액(원)</th>
+        <th>거래후잔액(원)</th>
+        <th>취급점</th>
+        <th>메모</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
   <button type="button" onclick="exportExcel();">Excel 파일 생성</button>
 
   <table id="out-table"><tbody id="out-tbody"></tbody></table>

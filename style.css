@@ -11,3 +11,21 @@ table th,
 table td {
   border: 1px solid #ccc;
 }
+
+#target {
+  margin-bottom: 10px;
+}
+
+#target th {
+  padding: 5px;
+  font-size: 12px;
+}
+
+#target td {
+  height: 25px;
+  background-color: #efefef;
+}
+
+#target td.in {
+  background-color: #ffffff;
+}
