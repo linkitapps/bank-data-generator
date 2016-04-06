@@ -1,5 +1,10 @@
 var jQuery = require('jquery');
+var jQueryUi = require('jquery-ui');
 require('jquery-csv');
+
+var xlsData = [];
+var startIndex;
+var dataKeyArr = [];
 
 var X = XLSX;
 
@@ -39,6 +44,8 @@ function process_wb(wb) {
     html = '',
     output = to_csv(wb);
 
+  xlsData = [];
+
   var data = jQuery.csv.toArrays(output),
     itemLen = data[0].length,
     j,
@@ -71,21 +78,56 @@ function process_wb(wb) {
       if (thead) {
         tag = 'th';
         thead = false;
+        startIndex = i;
       } else {
         tag = 'td';
       }
 
       html += '<tr>';
+
+      // 임시 객체를 만든다.
+      var tempArr = {};
+
       for (j = 0; j < itemLen; j++) {
-        html += '<' + tag + '>' + item[j] + '</' + tag + '>';
+        var _con = '';
+        if(tag == 'th'){
+          _con = '<div class="draggable-el"><span class="text">' + item[j] + '</span></div>';
+        } else {
+          _con = item[j];
+        }
+        html += '<' + tag + '>' + _con + '</' + tag + '>';
+
+        // 객체를 추가한다.
+        tempArr[data[startIndex][j]] = item[j];
+
       }
       html += '</tr>';
+
+      // 임시객체를 배열에 추가한다.
+      if(i != startIndex) {
+        xlsData.push(tempArr);
+      }
     }
   });
+  console.log(xlsData)
   tbody.innerHTML = html;
 
+  jQuery( '.draggable-el' ).draggable({
+    appendTo: "body",
+    helper: "clone"
+  });
+
+  jQuery( '#target td' ).droppable({
+    activeClass: "ui-state-default",
+    hoverClass: "ui-state-hover",
+    accept: ":not(.ui-sortable-helper)",
+    drop: function( event, ui ) {
+      jQuery(this).html(ui.draggable.text());
+    }
+  })
+
   if(typeof console !== 'undefined') {
-    console.log("output", data);
+    //console.log("output", data);
   }
 }
 
@@ -116,4 +158,49 @@ function exportExcel() {
     return false;
   }
   export_table_to_excel('out-table', '거래내역_' + (+new Date()));
+}
+
+function previewGrid() {
+  dataKeyArr = [];
+  var html = '<tr><td>거래일시</td><td>적요</td><td>기재내용</td><td>출금액(원)</td><td>입금액(원)</td><td>거래후잔액(원)</td><td>취급점</td><td>메모</td></tr>';
+  jQuery('#target tbody td').each(function(){
+    var text = jQuery(this).text();
+    dataKeyArr.push(text);
+  });
+  //jQuery('#out-tbody')
+  for ( var i in xlsData ) {
+    html += '<tr>';
+    for ( var j = 0; j < 8; j++ ){
+      html += '<td>'+ (xlsData[i][dataKeyArr[j]] ? xlsData[i][dataKeyArr[j]] : '') +'</td>';
+    }
+    html += '</tr>';
+  }
+
+  jQuery('#out-tbody').html(html);
+
+}
+
+function resetWindow(){
+
+  var fileInput = document.getElementById('xlfile');
+
+  xlsData = [];
+  startIndex = null;
+  dataKeyArr = [];
+
+  jQuery('#target tbody').html(function(){
+    var html = '';
+    jQuery('#target th').each(function(){
+      html += '<td></td>'
+    })
+    return '<tr>' + html + '</tr>'
+  });
+  jQuery('#out-tbody').html('');
+  // 텍스트 박스를 비운다
+  if(document.selection){
+    jQuery(fileInput).select();
+    document.selection.clear();
+  }else{
+    jQuery(fileInput).val('');
+  }
 }

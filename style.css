@@ -29,3 +29,5 @@ table td {
 #target td.in {
   background-color: #ffffff;
 }
+
+.draggable-el {cursor: move}
