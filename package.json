@@ -1,6 +1,6 @@
 {
   "name": "BankDataGenerator",
-  "private": true,
+  "private": false,
   "productName": "BankDataGenerator",
   "author": "LinkIt",
   "description": "Bank Data to FinDash Data Converter",

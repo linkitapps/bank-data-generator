@@ -1,6 +1,11 @@
-if (require('electron-squirrel-startup')) return;
+if(require('electron-squirrel-startup')) return;
 var app = require('app');
 var BrowserWindow = require('browser-window');
+
+var autoUpdater = require('auto-updater');
+var dialog = require('dialog');
+autoUpdater.setFeedURL("http://findash.io/app");
+autoUpdater.checkForUpdates();
 
 var mainWindow = null;
 
@@ -11,6 +16,33 @@ app.on('window-all-closed', function() {
 });
 
 app.on('ready', function() {
+  autoUpdater.on("update-downloaded", function(){
+    var index = dialog.showMessageBox({
+      message: "업데이트가 있습니다.",
+      detail: "프로그램을 종료하고 다시 시작 합니다.",
+      buttons: ["지금 다시 시작", "다음에"]
+    })
+
+    if (index === 0) {
+      autoUpdater.quitAndInstall();
+    }
+
+  });
+
+  autoUpdater.on("update-not-available", function(){
+    dialog.showMessageBox({
+      message: "업데이트가 없습니다.",
+      buttons: ["OK"]
+    });
+  });
+
+  autoUpdater.on("error", function(Error){
+    dialog.showMessageBox({
+      message: Error,
+      buttons: ["OK"]
+    });
+  });
+
   mainWindow = new BrowserWindow({width: 800, height: 600});
 
   mainWindow.loadURL('file://' + __dirname + '/index.html');
@@ -21,45 +53,3 @@ app.on('ready', function() {
     mainWindow = null;
   });
 });
-
-var handleStartupEvent = function() {
-  if (process.platform !== 'win32') {
-    return false;
-  }
-
-  var squirrelCommand = process.argv[1];
-  switch (squirrelCommand) {
-    case '--squirrel-install':
-    case '--squirrel-updated':
-
-      // Optionally do things such as:
-      //
-      // - Install desktop and start menu shortcuts
-      // - Add your .exe to the PATH
-      // - Write to the registry for things like file associations and
-      //   explorer context menus
-
-      // Always quit when done
-      app.quit();
-
-      return true;
-    case '--squirrel-uninstall':
-      // Undo anything you did in the --squirrel-install and
-      // --squirrel-updated handlers
-
-      // Always quit when done
-      app.quit();
-
-      return true;
-    case '--squirrel-obsolete':
-      // This is called on the outgoing version of your app before
-      // we update to the new version - it's the opposite of
-      // --squirrel-updated
-      app.quit();
-      return true;
-  }
-};
-
-if (handleStartupEvent()) {
-  return;
-}
