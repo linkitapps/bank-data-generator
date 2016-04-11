@@ -3,11 +3,21 @@
 <head>
   <meta charset="utf-8">
   <title>은행 거래내역 엑셀 => FinDash 변환기</title>
-
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,500,700,300,300italic,500italic|Roboto+Condensed:400,300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <p><input type="file" name="xlfile" id="xlfile" /> ... 은행 거래내역 엑셀파일을 선택해주십시오</p>
+<h1><i class="fa fa-line-chart"></i>FinDash</h1>
+<div id="wrapper">
+  <div class="file-upload">
+    <input type="text" readonly class="input-text" id="viewFineName" placeholder="파일을 선택 해 주세요.">
+    <div class="upload">
+      <span class="btn-excel"><i class="fa fa-file-excel-o"></i> 파일 찾기</span>
+      <input type="file" name="xlfile" id="xlfile" />
+    </div>
+    <button class="edit-bank btn-delete"  onclick="resetWindow();"><i class="fa fa-times"></i> 초기화</button>
+  </div>
   <table id="target">
     <thead>
       <tr>
@@ -35,11 +45,9 @@
     </tbody>
   </table>
 
-  <button type="button" onclick="previewGrid();">미리보기</button>
-
-  <button type="button" onclick="resetWindow();">초기화</button>
-
-  <button type="button" onclick="exportExcel();">Excel 파일 생성</button>
+  <!--<div class="summary"><i class="fa fa-arrows"></i> 아래 표의 제목을 드래그 해서 상단 표와 내용을 맞춰 주세요.</div>-->
+  <button type="button" id="btnPreview" class="btn-add" onclick="previewGrid();" style="display: none; width: auto; padding: 0 10px"><i class="fa fa-table"></i> 미리보기</button>
+  <button type="button" id="btnExcel" class="btn-excel" onclick="exportExcel();" style="display: none;width: auto; padding: 0 10px;"><i class="fa fa-file-excel-o"></i> Excel 파일 생성</button>
 
   <table id="out-table"><tbody id="out-tbody"></tbody></table>
 
@@ -52,6 +60,6 @@
   <script src="lib/FileSaver.js"></script>
   <script src="lib/Export2Excel.js"></script>
   <script src="script.js"></script>
-
+</div>
 </body>
 </html>

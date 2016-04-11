@@ -1,8 +1,23 @@
-body {
-  background-color: #ffffff;
-}
+body {background: #fff; font-family: "Roboto","Helvetica Neue",Arial,sans-serif; font-size: 12px; line-height: 18px; color: #3d4051; margin: 0; padding: 0}
+.btn-excel {width: 120px; height: 32px; background: #009688; color: #fff; font-weight: 700; font-size: 14px; border: none;}
+.btn-delete {width: 80px; height: 32px; background: #555555; color: #fff; font-weight: 700; font-size: 14px; border: none; position: absolute; top: 30px; right: 0}
+
+.btn-add {width: 80px; height: 32px; background: #00bcd4; color: #fff; font-weight: 700; font-size: 14px; border: none;}
+
+#wrapper {padding: 10px;}
+h1 {color: #fff;  height: 64px; line-height: 64px; background: #009688; text-align: center; margin: 0; padding:0 }
+.file-upload {position: relative; padding: 30px 230px 40px 0}
+
+.input-text {padding : 0px 0px 0px 5px; line-height:32px; height:32px; border-radius:0; font-size: 15px; box-sizing:border-box; background: #fff; border: none; border-bottom: 2px solid #e1e1e1; outline: none; width: 100%}
+.input-text:focus {border-color: #009688}
+.input-text:disabled {color: #777}
+
+.upload {position: absolute; top: 30px; right: 90px; width: 120px; height: 32px; }
+.upload span {display: block; width: 120px; height: 32px; cursor: pointer; text-align: center; line-height: 32px}
+.upload input{position: absolute; top: 0; left: 0;  display: block !important;  width: 100% !important;  height: 100% !important;  opacity: 0 !important;  overflow: hidden !important;  cursor: pointer;}
 
 table {
+  width: 100%;
   margin-top: 10px;
   border-collapse: collapse;
 }
@@ -10,6 +25,8 @@ table {
 table th,
 table td {
   border: 1px solid #ccc;
+  text-align: center;
+  padding: 5px;
 }
 
 #target {

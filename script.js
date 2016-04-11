@@ -136,7 +136,11 @@ function handleFile(e) {
   var files = e.target.files;
   var f = files[0];
   var reader = new FileReader();
-  //var name = f.name;    // 파일 이름
+  var name = f.name;    // 파일 이름
+
+  jQuery('#viewFineName').val(name);
+  jQuery('#btnPreview').show();
+  jQuery('#btnExcel').hide();
 
   reader.onload = function(e) {
     var data = e.target.result;
@@ -161,6 +165,8 @@ function exportExcel() {
 }
 
 function previewGrid() {
+  jQuery('#btnPreview').hide();
+  jQuery('#btnExcel').show();
   dataKeyArr = [];
   var html = '<tr><td>거래일시</td><td>적요</td><td>기재내용</td><td>출금액(원)</td><td>입금액(원)</td><td>거래후잔액(원)</td><td>취급점</td><td>메모</td></tr>';
   jQuery('#target tbody td').each(function(){
@@ -171,7 +177,7 @@ function previewGrid() {
   for ( var i in xlsData ) {
     html += '<tr>';
     for ( var j = 0; j < 8; j++ ){
-      html += '<td>'+ (xlsData[i][dataKeyArr[j]] ? xlsData[i][dataKeyArr[j]] : '') +'</td>';
+      html += '<td>'+ (xlsData[i][dataKeyArr[j]] ? xlsData[i][dataKeyArr[j]] : '-') +'</td>';
     }
     html += '</tr>';
   }

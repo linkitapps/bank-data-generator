@@ -7,6 +7,7 @@
   "version": "0.1.0",
   "main": "main.js",
   "dependencies": {
+    "font-awesome": "^4.5.0",
     "jquery": "2.2.2",
     "jquery-csv": "0.8.1",
     "jquery-ui": "1.10.5",
