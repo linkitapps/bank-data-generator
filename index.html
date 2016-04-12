@@ -46,7 +46,10 @@
   </table>
 
   <!--<div class="summary"><i class="fa fa-arrows"></i> 아래 표의 제목을 드래그 해서 상단 표와 내용을 맞춰 주세요.</div>-->
-  <button type="button" id="btnPreview" class="btn-add" onclick="previewGrid();" style="display: none; width: auto; padding: 0 10px"><i class="fa fa-table"></i> 미리보기</button>
+  <div id="previewSum" style="display: none; ">
+    <button type="button" id="btnPreview" class="btn-add" onclick="previewGrid();" style="width: auto; padding: 0 10px"><i class="fa fa-table"></i> 미리보기</button>
+    아래의 컬럼을 위 회색 영역으로 하나씩 드래그해서 매칭시킨 후 왼쪽 미리보기를 클릭하세요
+  </div>
   <button type="button" id="btnExcel" class="btn-excel" onclick="exportExcel();" style="display: none;width: auto; padding: 0 10px;"><i class="fa fa-file-excel-o"></i> Excel 파일 생성</button>
 
   <table id="out-table"><tbody id="out-tbody"></tbody></table>

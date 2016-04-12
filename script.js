@@ -139,8 +139,10 @@ function handleFile(e) {
   var name = f.name;    // 파일 이름
 
   jQuery('#viewFineName').val(name);
-  jQuery('#btnPreview').show();
+  jQuery('#previewSum').show();
   jQuery('#btnExcel').hide();
+
+  removeDroppable();
 
   reader.onload = function(e) {
     var data = e.target.result;
@@ -165,7 +167,7 @@ function exportExcel() {
 }
 
 function previewGrid() {
-  jQuery('#btnPreview').hide();
+  jQuery('#previewSum').hide();
   jQuery('#btnExcel').show();
   dataKeyArr = [];
   var html = '<tr><td>거래일시</td><td>적요</td><td>기재내용</td><td>출금액(원)</td><td>입금액(원)</td><td>거래후잔액(원)</td><td>취급점</td><td>메모</td></tr>';
@@ -194,14 +196,10 @@ function resetWindow(){
   startIndex = null;
   dataKeyArr = [];
 
-  jQuery('#target tbody').html(function(){
-    var html = '';
-    jQuery('#target th').each(function(){
-      html += '<td></td>'
-    })
-    return '<tr>' + html + '</tr>'
-  });
   jQuery('#out-tbody').html('');
+
+  removeDroppable();
+
   // 텍스트 박스를 비운다
   if(document.selection){
     jQuery(fileInput).select();
@@ -209,4 +207,14 @@ function resetWindow(){
   }else{
     jQuery(fileInput).val('');
   }
+}
+
+function removeDroppable(){
+  jQuery('#target tbody').html(function(){
+    var html = '';
+    jQuery('#target th').each(function(){
+      html += '<td></td>'
+    })
+    return '<tr>' + html + '</tr>'
+  });
 }
