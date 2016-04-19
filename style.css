@@ -1,13 +1,14 @@
 body {background: #fff; font-family: "Roboto","Helvetica Neue",Arial,sans-serif; font-size: 12px; line-height: 18px; color: #3d4051; margin: 0; padding: 0}
 button {cursor: pointer;}
 .btn-excel {width: 120px; height: 32px; background: #009688; color: #fff; font-weight: 700; font-size: 14px; border: none;}
-.btn-delete {width: 80px; height: 32px; background: #555555; color: #fff; font-weight: 700; font-size: 14px; border: none; position: absolute; top: 30px; right: 0}
+.btn-delete {width: 80px; height: 32px; background: #555555; color: #fff; font-weight: 700; font-size: 14px; border: none;}
 
 .btn-add {width: 80px; height: 32px; background: #00bcd4; color: #fff; font-weight: 700; font-size: 14px; border: none;}
 
 #wrapper {padding: 10px;}
 h1 {color: #fff;  height: 64px; line-height: 64px; background: #009688; text-align: center; margin: 0; padding:0 }
 .file-upload {position: relative; padding: 30px 230px 20px 0}
+.file-upload .btn-delete{ position: absolute; top: 30px; right: 0}
 
 .input-text {padding : 0px 0px 0px 5px; line-height:32px; height:32px; border-radius:0; font-size: 15px; box-sizing:border-box; background: #fff; border: none; border-bottom: 2px solid #e1e1e1; outline: none; width: 100%}
 .input-text:focus {border-color: #009688}
@@ -19,6 +20,27 @@ h1 {color: #fff;  height: 64px; line-height: 64px; background: #009688; text-ali
 
 #previewSum {position: relative; font-weight: 700; color: #00bcd4}
 #previewSum button {margin-right: 10px;}
+#previewSum .select-pattern {position: absolute; top: 0; right: 0;}
+#previewSum .select-pattern select{ height: 32px;}
+
+#ly-add-bank-pattern {display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7)}
+#ly-add-bank-pattern .inner { position: absolute; top: 50%; left: 50%; width: 400px; margin: -150px 0 0 -150px; padding: 20px; background: #fff; -webkit-box-shadow: 5px 5px 17px 0px rgba(0,0,0,0.75);  -moz-box-shadow: 5px 5px 17px 0px rgba(0,0,0,0.75); box-shadow: 5px 5px 17px 0px rgba(0,0,0,0.75); font-size: 17px; color: #000; font-weight: 700}
+#ly-add-bank-pattern .btn-area { text-align: center; padding: 20px 0 0 0;}
+#ly-add-bank-pattern .btn-area button {margin: 0 10px;}
+.edit-pattern {display: none; color: #666}
+.input-pattern { position: relative; box-sizing: border-box; padding: 0 180px 0 0;}
+.input-pattern button {position: absolute; top: 0; right: 0; width: 80px;}
+.input-pattern #save-pattern {right: 85px;}
+
+.pattern-list {font-size: 14px; font-weight: 700; color: #009688; padding-top: 20px;}
+.pattern-list .delete {vertical-align: middle; background: #666; font-size: 12px; width: 15px; height: 15px; text-align: center; line-height: 15px; padding: 0; color: #fff; border: none; margin-top: -2px; margin-left: 3px;}
+.pattern-list ul, .pattern-list li {list-style: none; padding: 0; margin: 0;}
+.pattern-list ul {padding-top: 5px;}
+.pattern-list li {position: relative; line-height: 25px; font-size: 12px; font-weight: 400; color: #666; padding: 0 0 0 10px;}
+.pattern-list li:before {content: ''; display: block; width: 3px; height: 3px; border-radius: 3px; background: #666; position: absolute; top: 10px; left: 3px;}
+
+#ly-add-bank-pattern.step2 .edit-pattern {display: block;}
+#ly-add-bank-pattern.step2 .confirm-add-pattern {display: none;}
 
 table {
   width: 100%;

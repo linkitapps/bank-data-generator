@@ -48,11 +48,35 @@
   <!--<div class="summary"><i class="fa fa-arrows"></i> 아래 표의 제목을 드래그 해서 상단 표와 내용을 맞춰 주세요.</div>-->
   <div id="previewSum" style="display: none; ">
     <button type="button" id="btnPreview" class="btn-add" onclick="previewGrid();" style="width: auto; padding: 0 10px"><i class="fa fa-table"></i> 미리보기</button>
-    아래의 컬럼을 위 회색 영역으로 하나씩 드래그해서 매칭시킨 후 왼쪽 미리보기를 클릭하세요
+    아래의 컬럼을 위 회색 영역으로 하나씩 드래그해서 매칭시키거나 저장된 형식 선택 후 왼쪽 미리보기를 클릭하세요
+    <div class="select-pattern"></div>
   </div>
   <button type="button" id="btnExcel" class="btn-excel" onclick="exportExcel();" style="display: none;width: auto; padding: 0 10px;"><i class="fa fa-file-excel-o"></i> Excel 파일 생성</button>
 
   <table id="out-table"><tbody id="out-tbody"></tbody></table>
+
+  <div id="ly-add-bank-pattern">
+    <div class="inner">
+      <div class="confirm-add-pattern">
+        해당 엑셀 데이터 추출 형식을 기억 하겠습니까?
+        <div class="btn-area">
+          <button class="btn-add" id="confirm-pattern">예</button>
+          <button class="btn-delete cancel-pattern">아니오</button>
+        </div>
+      </div>
+      <div class="edit-pattern">
+        <div class="input-pattern">
+          <input type="text" class="input-text" id="pattern-text" placeholder="해당 형식에 이름을 정해 주세요.">
+          <button class="btn-excel" id="save-pattern">확인</button>
+          <button class="btn-delete cancel-pattern">취소</button>
+        </div>
+        <div class="pattern-list">
+          나의 패턴 목록
+          <ul></ul>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="node_modules/xlsx/dist/cpexcel.js"></script>
   <script src="node_modules/xlsx/jszip.js"></script>

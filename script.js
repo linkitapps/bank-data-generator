@@ -1,4 +1,4 @@
-var jQuery = require('jquery');
+var jQuery = $ = require('jquery');
 var jQueryUi = require('jquery-ui');
 require('jquery-csv');
 
@@ -46,13 +46,13 @@ function process_wb(wb) {
 
   xlsData = [];
 
-  var data = jQuery.csv.toArrays(output),
+  var data = $.csv.toArrays(output),
     itemLen = data[0].length,
     j,
     start = false,
     thead = false,
     tag;
-  jQuery.each(data, function(i, item) {
+  $.each(data, function(i, item) {
     // 맨 앞 컬럼 값이 없으면 유효하지 않은 row 로 판단함: 예) 우리은행 개인뱅킹 맨 아랫줄에 나오는 합계 row
     if (!item[0]) {
       return;
@@ -112,17 +112,17 @@ function process_wb(wb) {
   console.log(xlsData)
   tbody.innerHTML = html;
 
-  jQuery( '.draggable-el' ).draggable({
+  $( '.draggable-el' ).draggable({
     appendTo: "body",
     helper: "clone"
   });
 
-  jQuery( '#target td' ).droppable({
+  $( '#target td' ).droppable({
     activeClass: "ui-state-default",
     hoverClass: "ui-state-hover",
     accept: ":not(.ui-sortable-helper)",
     drop: function( event, ui ) {
-      jQuery(this).html(ui.draggable.text());
+      $(this).html(ui.draggable.text());
     }
   })
 
@@ -138,9 +138,9 @@ function handleFile(e) {
   var reader = new FileReader();
   var name = f.name;    // 파일 이름
 
-  jQuery('#viewFineName').val(name);
-  jQuery('#previewSum').show();
-  jQuery('#btnExcel').hide();
+  $('#viewFineName').val(name);
+  $('#previewSum').show();
+  $('#btnExcel').hide();
 
   removeDroppable();
 
@@ -167,24 +167,28 @@ function exportExcel() {
 }
 
 function previewGrid() {
-  jQuery('#previewSum').hide();
-  jQuery('#btnExcel').show();
+  $('#previewSum').hide();
+  $('#btnExcel').show();
   dataKeyArr = [];
   var html = '<tr><td>거래일시</td><td>적요</td><td>기재내용</td><td>출금액(원)</td><td>입금액(원)</td><td>거래후잔액(원)</td><td>취급점</td><td>메모</td></tr>';
-  jQuery('#target tbody td').each(function(){
-    var text = jQuery(this).text();
+  $('#target tbody td').each(function(){
+    var text = $(this).text();
     dataKeyArr.push(text);
   });
-  //jQuery('#out-tbody')
+  //$('#out-tbody')
   for ( var i in xlsData ) {
     html += '<tr>';
     for ( var j = 0; j < 8; j++ ){
-      html += '<td>'+ (xlsData[i][dataKeyArr[j]] ? xlsData[i][dataKeyArr[j]] : '-') +'</td>';
+      html += '<td>'+ (xlsData[i][dataKeyArr[j]] ? xlsData[i][dataKeyArr[j]].replace(/s/gi, '') : '-') +'</td>';
     }
     html += '</tr>';
   }
 
-  jQuery('#out-tbody').html(html);
+  $('#out-tbody').html(html);
+
+  if(checkPattern()){
+    $('#ly-add-bank-pattern').show();
+  }
 
 }
 
@@ -196,25 +200,139 @@ function resetWindow(){
   startIndex = null;
   dataKeyArr = [];
 
-  jQuery('#out-tbody').html('');
+  $('#out-tbody').html('');
 
   removeDroppable();
 
+  $('#previewSum, #btnExcel').hide();
+
   // 텍스트 박스를 비운다
   if(document.selection){
-    jQuery(fileInput).select();
+    $(fileInput).select();
     document.selection.clear();
   }else{
-    jQuery(fileInput).val('');
+    $(fileInput).val('');
   }
+  $('#viewFineName').val('');
 }
 
 function removeDroppable(){
-  jQuery('#target tbody').html(function(){
+  $('#target tbody').html(function(){
     var html = '';
-    jQuery('#target th').each(function(){
+    $('#target th').each(function(){
       html += '<td></td>'
     })
     return '<tr>' + html + '</tr>'
   });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+var userLocalBank = localStorage.getItem('matchBank');
+var patternList;
+var tempPatternArr;
+
+if(userLocalBank){
+  patternList = JSON.parse(userLocalBank);
+} else {
+  patternList = {};
+}
+makeSelectPattern(patternList);
+makePatternList(patternList);
+
+
+function checkPattern(){
+  var isNewPattern = true;
+  tempPatternArr = [];
+  $('#target tbody tr:first-child td').each(function(){
+    tempPatternArr.push(jQuery(this).text());
+  });
+
+  for( var i in patternList ){
+    if( JSON.stringify(patternList[i]) == JSON.stringify(tempPatternArr) ){
+      isNewPattern = false;
+      break;
+    }
+  }
+  return isNewPattern;
+}
+
+function makeSelectPattern (data){
+  var _select = $('#previewSum .select-pattern');
+  var _option = '';
+
+  _select.find('*').remove();
+  _option += '<select>';
+  _option += '<option value="">형식을 선택해 주세요.</option>';
+
+  for ( var i in data){
+    _option += '<option value="' + i + '">' + i + '</option>';
+  }
+
+  _option += '</select>';
+  _select.append(_option);
+}
+
+function makePatternList( data ){
+  var _list = $('.pattern-list ul');
+  var _html = '';
+  _list.find('*').remove();
+
+  for ( var i in data){
+    _html += '<li><span class="bank-text">' + i + '</span><button class="delete"><i class="fa fa-times" aria-hidden="true"></i></button></li>'
+  }
+  _list.append(_html);
+}
+
+$('#confirm-pattern').on('click', function(){
+  $('#ly-add-bank-pattern').addClass('step2');
+});
+$('.cancel-pattern').on('click', function(){
+  $('#pattern-text').val('');
+  $('#ly-add-bank-pattern').removeClass('step2').hide();
+});
+
+$('#save-pattern').on('click', function(){
+  var _k = $('#pattern-text').val();
+  patternList[_k] = tempPatternArr;
+  try {
+    localStorage.setItem('matchBank', JSON.stringify(patternList));
+    makeSelectPattern(patternList);
+    makePatternList(patternList);
+    $('.cancel-pattern')[0].click();
+    alert('추가 되었습니다.');
+  } catch (e) {
+    if (e == QUOTA_EXCEEDED_ERR) {
+      alert('저장 공간이 부족 합니다.\n목록중 불필요한 항목을 삭제 해주세요.'); // 할당량 초과로 인하여 데이터를 저장할 수 없음
+    }
+  }
+});
+
+$(document).on('change','.select-pattern select', function(){
+  var _val = this.value;
+  if(_val){
+    $('#target tbody tr:first-child td').each(function(i){
+      $(this).text(patternList[_val][i]);
+    });
+  }
+});
+
+$(document).on('click','.pattern-list .delete', function(){
+  alert('111');
+  var _key = $(this).siblings('.bank-text').text();
+  delete patternList[_key];
+  localStorage.setItem('matchBank', JSON.stringify(patternList));
+  makeSelectPattern(patternList);
+  makePatternList(patternList);
+  alert('삭제 되었습니다.');
+});
